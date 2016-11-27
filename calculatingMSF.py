@@ -25,7 +25,6 @@ class MSF():
                         'Subject_id': subject_id,
                         'Date': date_dy,
                         'Workday': date_df.Workday.iloc[0],
-
                     }), ignore_index=True)
 
         MSF_participant_sleep_list = pd.DataFrame()
