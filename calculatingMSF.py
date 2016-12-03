@@ -1,15 +1,15 @@
 import pandas as pd
 import datetime
 
-class MSF():
 
-    def compute_MSF(feature_df,verbose=False, cache=True):
+class MSF:
+    def compute_MSF(feature_df, verbose=False, cache=True):
 
         result_list = pd.DataFrame()
         MSF_final = 0
 
-        if cache:
-            return [78095.657143,80223.283333,77042.860714,60128.900000,80620.792593,47766.539583,67473.637500]
+        # if cache:
+        #     return [78095.657143, 80223.283333, 77042.860714, 60128.900000, 80620.792593, 47766.539583, 67473.637500]
 
         labels_df = pd.read_hdf('data.h5', 'labels')
         date = labels_df.Time.apply(lambda x: x.date())
@@ -39,8 +39,8 @@ class MSF():
                                         MSF_participant_sleep_list.Subject_id == subject_id]) > 0):
 
                     yesterday_SO = \
-                    MSF_participant_sleep_list.loc[MSF_participant_sleep_list.Subject_id == subject_id].SO.iloc[
-                        -1]
+                        MSF_participant_sleep_list.loc[MSF_participant_sleep_list.Subject_id == subject_id].SO.iloc[
+                            -1]
                     today_wakeup_time = min(date_df.Test_time)
 
                     if (yesterday_SO.date() == today_wakeup_time.date() - datetime.timedelta(days=1)):
@@ -67,11 +67,16 @@ class MSF():
 
             avg_SD_free = MSF_participant_sleep_list.loc[(MSF_participant_sleep_list.Subject_id == subject_id) &
                                                          (MSF_participant_sleep_list.Workday == 0.0)].SD.mean()
+            avg_SD_work = MSF_participant_sleep_list.loc[(MSF_participant_sleep_list.Subject_id == subject_id) &
+                                                         (MSF_participant_sleep_list.Workday == 1.0)].SD.mean()
 
             avg_SO_free = MSF_participant_sleep_list.loc[(MSF_participant_sleep_list.Subject_id == subject_id) &
                                                          (MSF_participant_sleep_list.Workday == 0.0)].SO_Sec.mean()
+            avg_SO_work = MSF_participant_sleep_list.loc[(MSF_participant_sleep_list.Subject_id == subject_id) &
+                                                         (MSF_participant_sleep_list.Workday == 1.0)].SO_Sec.mean()
 
             MSF = avg_SO_free + avg_SD_free / 2
+            MSW = avg_SO_work + avg_SD_work / 2
             SD_sum = MSF_participant_sleep_list.loc[(MSF_participant_sleep_list.Subject_id == subject_id)
                                                     & MSF_participant_sleep_list.SD != 0].SD.sum()
             SD_days = len(MSF_participant_sleep_list.loc[(MSF_participant_sleep_list.Subject_id == subject_id)
@@ -88,6 +93,7 @@ class MSF():
                 {
                     "Subject_id": subject_id,
                     "MSF": MSF,
+                    "MSW": MSW,
                     "SD_week": SD_week_avg,
                     "MSF_final": MSF_final
                 }), ignore_index=True);
@@ -95,9 +101,10 @@ class MSF():
             if (verbose):
                 print("Subject_id ", subject_id,
                       " MSF ", MSF,
+                      " MSW ", MSW,
                       " SD_week ", SD_week_avg,
                       " MSF_final ", MSF_final
                       )
 
-        print(result_list)
-        return result_list.MSF_final
+        # print(result_list)
+        return result_list

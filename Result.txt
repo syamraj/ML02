@@ -1,0 +1,78 @@
+We have carried out the experiment with different features for the Y label
+1) using MSFsc as the Y_set feature
+2) using MSF as the Y_set feature
+3) using MSW as the Y_set feature
+
+The values of MSF, MSW, MSFsc is calculated with very good precision and has been cross checked with some vales
+calculated manually. All the before values are bing calculated in seconds but the final RMSe error has been converted
+to hours for the better understanding.
+
+The training and testing data has been split in the ratio of 5:2. First 5 persons data have been used for training the
+model and 2 for testing purposes.
+
+We have tried with multiple features for the X_set and found that q50_mean gave better result than others. But we have
+tried only with one feature at a time.
+
+Now with the base data set and with all the necessary information required for the regression analysis we have carried
+out the experiment with
+1)Linear Regression
+2)SVR with kernel values as 'linear' and 'rbf'
+3)Decision tree with Adaboost
+
+In order to understand the influence of other activities in the model we have carried out the experiment with and
+without alcohol values(by removing and keeping the tuples marked as 1 for Alcohol)
+
+Below are the results obtained from the above mentioned models.
+            (RMSe values are all in hours)
+1) RMSe(Linear Regression + MSFsc + with alcohol)    = 2.18
+2) RMSe(Linear Regression + MSFsc + without alcohol) = 1.81
+3) RMSe(Linear Regression + MSF   + with alcohol)    = 2.16
+4) RMSe(Linear Regression + MSF   + without alcohol) = 1.84
+5) RMSe(Linear Regression + MSW   + with alcohol)    = 29.6
+6) RMSe(Linear Regression + MSW   + without alcohol) = 24.6
+
+7) RMSe(SVR with linear   + MSFsc + with alcohol)    = 10.01
+8) RMSe(SVR with linear   + MSFsc + without alcohol) = 9.09
+9)RMSe(SVR with linear   + MSF   + with alcohol)    = 10.01
+10)RMSe(SVR with linear   + MSF   + without alcohol) = 9.03
+11)RMSe(SVR with linear   + MSW   + with alcohol)    = 3.06
+12)RMSe(SVR with linear   + MSW   + without alcohol) = 2.72
+
+13)RMSe(SVR with rbf      + MSFsc + with alcohol)    = 6.31
+14)RMSe(SVR with rbf      + MSFsc + without alcohol) = 6.3
+15)RMSe(SVR with rbf      + MSF   + with alcohol)    = 6.32
+16)RMSe(SVR with rbf      + MSF   + without alcohol) = 6.32
+17)RMSe(SVR with rbf      + MSW   + with alcohol)    = 1.44
+18)RMSe(SVR with rbf      + MSW   + with alcohol)    = 1.44
+
+19)RMSe(DTR with Adaboost + MSFsc + with alcohol)    = 6.7
+20)RMSe(DTR with Adaboost + MSFsc + without alcohol) = 3.2
+21)RMSe(DTR with Adaboost + MSF   + with alcohol)    = 3.2
+22)RMSe(DTR with Adaboost + MSF   + without alcohol) = 6.7
+23)RMSe(DTR with Adaboost + MSW   + with alcohol)    = 0.5
+24)RMSe(DTR with Adaboost + MSW   + without alcohol) = 2.9
+
+After analysing the above result Decision tree with Aaboost gave the least error of .5 with MSW as the label of Y_set. It
+ was the best as decision tree can fit in the model much better.
+
+
+SVR with rbf also gave a better result when compared to others with a value of 1.44 with MSW the values was consistent
+    with and without the alcohol value.
+
+Linear Regression gave a better value of 1.81 but with out the alcohol value, at the same time it was a disaster with
+ MSF and MSW values.
+
+Comparatively it can be seen that the model without the alcohol values showed a better error. But there are exceptions
+ as seen with the Decision tree with Adaboost.
+
+Talking about the best Y label model MSW showed a really good values with SVR and Decision tree. It showed a bad result
+ for linear. MSF and MSFse almost had the similar values.
+
+To wrap it up using MSW with Decision Tree with adaboost and SVR(kernal ='rbf') gave a better result.
+
+*For the future work, We would like to try with multiple features at the same time and with different combinations.
+*Try individual model for each person and combine it all to get a more valid result.
+*May be come up with a new feature other than the one provided.
+*With more data set.
+
+
